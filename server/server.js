@@ -47,10 +47,19 @@ const sendNewQuestion = () => {
   expectedAnswers = {};  
 
   players.forEach((player) => {
-    let expectedResult = (currentQuestion.a / currentQuestion.b).toFixed(player.difficulty - 1);
+    let rawResult = currentQuestion.a / currentQuestion.b;
+    let expectedResult;
+  
+    if (player.difficulty === 1) {
+      expectedResult = Math.floor(rawResult).toString();
+    } else {
+      expectedResult = rawResult.toFixed(player.difficulty - 1);
+    }
+  
     expectedAnswers[player.id] = expectedResult;
     console.log(`Expected answer for ${player.name}: ${expectedResult}`);
   });
+  
 
   // Log the new question in the file
   const logEntry = `\n# Calcul : ${currentQuestion.a} / ${currentQuestion.b}\n`;
